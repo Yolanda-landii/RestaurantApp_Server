@@ -1,5 +1,5 @@
-const asyncHandler = require('./middleware/asyncHandler');
-const Reservation = require('./models/reservations');
+const asyncHandler = require('../middleware/asyncHandler');
+const Reservation = require('../models/Reservations');
 
 exports.createReservation = asyncHandler(async (req, res) => {
   const { restaurant, date, time, partySize } = req.body;

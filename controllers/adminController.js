@@ -1,6 +1,6 @@
 const asyncHandler = require('../middleware/asyncHandler');
-const User = require('./models/user');
-const Restaurant = require('./models/restaurant');
+const User = require('../models/User');
+const Restaurant = require('../models/Restaurant');
 
 exports.getAllUsers = asyncHandler(async (req, res) => {
   const users = await User.find({});
