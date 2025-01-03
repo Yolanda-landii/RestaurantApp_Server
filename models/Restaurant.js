@@ -7,6 +7,7 @@ const RestaurantSchema = new mongoose.Schema({
   availableSlots: [Date],
   ratings: { type: Number, default: 0 },
   reviews: [{ user: String, comment: String, rating: Number }],
+  image: { type: String },
 });
 
 module.exports = mongoose.model('Restaurant', RestaurantSchema);
