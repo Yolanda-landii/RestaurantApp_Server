@@ -1,17 +1,12 @@
 const express = require('express');
-const { getAllRestaurants, createRestaurant, updateRestaurant, deleteRestaurant } = require('../controllers/restaurantController');
-
-const router = express.Router();
+const { getAllRestaurants, createRestaurant } = require('../controllers/restaurantController');
 const multer = require('multer');
 
-const upload = multer({ dest: 'uploads/' }); 
+const router = express.Router();
+const upload = multer({ dest: 'uploads/' });
 
-// Routes for restaurant actions
 router.route('/')
   .get(getAllRestaurants)
-
-router.route('/:id')
-  .put(upload.single('image'), updateRestaurant)  
-  .delete(deleteRestaurant);
+  .post(upload.single('image'), createRestaurant);
 
 module.exports = router;
