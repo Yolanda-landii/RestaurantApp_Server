@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const bodyParser = require('body-parser');
 const connectDB = require('./config/db');
 const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
@@ -14,6 +15,9 @@ app.use(cors());
 
 // Middleware
 app.use(express.json());
+// Middleware
+app.use(bodyParser.json()); // Middleware to parse JSON bodies
+app.use(bodyParser.urlencoded({ extended: true })); // Middleware for URL-encoded data
 
 // Connect DB
 connectDB();
