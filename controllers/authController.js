@@ -1,21 +1,35 @@
+const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
-const asyncHandler = require('../middleware/asyncHandler');
-const generateToken = require('../utils/generateToken');
 
-exports.register = asyncHandler(async (req, res) => {
-  const { name, email, password } = req.body;
-  const user = await User.create({ name, email, password });
-  const token = generateToken(user._id);
-  res.status(201).json({ token });
-});
+const login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const user = await User.findOne({ email });
+    if (!user) return res.status(404).send({ message: 'User not found.' });
 
-exports.login = asyncHandler(async (req, res) => {
-  const { email, password } = req.body;
-  const user = await User.findOne({ email });
-  if (!user || !(await user.matchPassword(password))) {
-    return res.status(401).json({ message: 'Invalid credentials' });
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) return res.status(400).send({ message: 'Invalid credentials.' });
+
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    res.status(200).send({ token });
+  } catch (err) {
+    res.status(500).send({ message: 'Server error. Please try again later.' });
   }
-  const token = generateToken(user._id);
-  res.json({ token });
-});
+};
+
+const register = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const user = new User({ email, password: hashedPassword });
+    await user.save();
+
+    res.status(201).send({ message: 'User registered successfully.' });
+  } catch (err) {
+    res.status(500).send({ message: 'Registration failed. Please try again.' });
+  }
+};
+
+module.exports = { login, register };
