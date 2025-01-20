@@ -5,8 +5,6 @@ const RestaurantSchema = new mongoose.Schema({
   location: { type: String, required: true },
   cuisine: { type: String, required: true },
   availableSlots: [Date],
-  ratings: { type: Number, default: 0 },
-  reviews: [{ user: String, comment: String, rating: Number }],
   image: { type: String },
 });
 
