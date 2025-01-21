@@ -7,16 +7,15 @@ const {
   deleteAllRestaurants,
 } = require('../controllers/restaurantController');
 const multer = require('multer');
+const upload = multer({ dest: 'temp/' });
 
 const router = express.Router();
-const upload = multer({ dest: 'uploads/' }); 
 
-router
-  .route('/')
+router.route('/')
   .get(getAllRestaurants)
-  .post(upload.single('image'), createRestaurant); 
-router
-  .route('/:id')
+  .post(upload.single('image'), createRestaurant);
+
+router.route('/:id')
   .put(upload.single('image'), updateRestaurant)
   .delete(deleteRestaurant);
 
