@@ -14,7 +14,7 @@ router.post('/register', registerAdmin);
 // Admin login
 router.post('/login', loginAdmin);
 
-module.exports = router;
+// module.exports = router;
 
 // router.get('/users', protect, admin, getAllUsers);
 // router.get('/restaurants', protect, admin, getAllRestaurants);

@@ -17,5 +17,3 @@ module.exports = router;
 
 
 // router.route('/profile').get(protect, getUserProfile).put(protect, updateUserProfile);
-
-module.exports = router;
