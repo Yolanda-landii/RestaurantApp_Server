@@ -7,6 +7,7 @@ const adminRoutes = require('./routes/adminRoutes');
 const reservationRoutes = require('./routes/reservationRoutes');
 const restaurantRoutes = require('./routes/restaurantRoutes');
 const { errorHandler } = require('./middleware/errorMiddleware');
+const paymentRoutes = require('./routes/payment');
 const path = require('path');
 const app = express();
 const cors = require('cors');
@@ -26,6 +27,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/reservations', reservationRoutes);
 app.use('/api/restaurants', restaurantRoutes);
+app.use('/api/payments', paymentRoutes);
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // Error Middleware
 app.use(errorHandler);

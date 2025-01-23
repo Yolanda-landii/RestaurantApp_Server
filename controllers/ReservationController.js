@@ -58,3 +58,18 @@ exports.updateReservation = asyncHandler(async (req, res) => {
 
   res.status(200).json(reservation);
 });
+exports.cancelReservation = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const reservation = await Reservation.findByIdAndDelete(id);
+    if (!reservation) {
+      res.status(404);
+      throw new Error('Reservation not found');
+    }
+
+    res.status(200).json({ message: 'Reservation canceled successfully' });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to cancel reservation' });
+  }
+});
