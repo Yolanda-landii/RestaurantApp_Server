@@ -24,10 +24,11 @@ exports.createReservation = asyncHandler(async (req, res) => {
 
 // Get all reservations for the logged-in user
 exports.getUserReservations = asyncHandler(async (req, res) => {
+  console.log("test",req.user);
   const reservations = await Reservation.find({ user: req.user._id })
     .populate('restaurant', 'name location cuisine')
     .sort({ date: 1 });
-
+  console.log(reservations);
   res.json(reservations);
 });
 

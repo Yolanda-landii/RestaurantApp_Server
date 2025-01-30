@@ -21,6 +21,8 @@ exports.createRestaurant = asyncHandler(async (req, res) => {
       location,
       cuisine,
       image: imageUrl,
+      adminId: (req.user._id)
+
     });
 
     res.status(201).json(restaurant);
@@ -72,6 +74,17 @@ exports.getAllRestaurants = asyncHandler(async (req, res) => {
   }
 });
 
+exports.getRestaurant = asyncHandler(async (req, res) => {
+  try {
+    const restaurants = await Restaurant.find({ adminId: req.user._id });
+    console.log({ user: req.user._id });
+    res.status(200).json(restaurants);
+  } catch (error) {
+    console.error('Error fetching restaurants:', error);
+    res.status(500).json({ message: 'Failed to fetch restaurants', error: error.message });
+  }
+});
+
 exports.deleteRestaurant = asyncHandler(async (req, res) => {
   try {
     await Restaurant.findByIdAndDelete(req.params.id);
@@ -82,12 +95,4 @@ exports.deleteRestaurant = asyncHandler(async (req, res) => {
   }
 });
 
-exports.deleteAllRestaurants = asyncHandler(async (req, res) => {
-  try {
-    await Restaurant.deleteMany();
-    res.status(200).json({ message: 'All restaurants deleted' });
-  } catch (error) {
-    console.error('Error deleting all restaurants:', error);
-    res.status(500).json({ message: 'Failed to delete all restaurants', error: error.message });
-  }
-});
+

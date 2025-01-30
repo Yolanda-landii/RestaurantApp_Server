@@ -6,6 +6,7 @@ const RestaurantSchema = new mongoose.Schema({
   cuisine: { type: String, required: true },
   availableSlots: [Date],
   image: { type: String },
+  adminId: {type:String},
 });
 
 module.exports = mongoose.model('Restaurant', RestaurantSchema);
