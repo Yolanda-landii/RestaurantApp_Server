@@ -6,7 +6,7 @@ const ReservationSchema = new mongoose.Schema({
   date: { type: Date, required: true },
   time: { type: String, required: true },
   partySize: { type: Number, required: true },
-  status: { type: String, default: 'Confirmed' },
+  status: { type: String, default: 'Pending' },
 });
 
 module.exports = mongoose.model('Reservation', ReservationSchema);
