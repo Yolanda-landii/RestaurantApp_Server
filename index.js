@@ -9,6 +9,7 @@ const restaurantRoutes = require('./routes/restaurantRoutes');
 const { errorHandler } = require('./middleware/errorMiddleware');
 const paymentRoutes = require('./routes/payment');
 const path = require('path');
+const profileRoutes = require('./routes/profileRoutes');
 const app = express();
 const cors = require('cors');
 app.use(cors());
@@ -31,6 +32,7 @@ app.use('/api/payments', paymentRoutes);
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // Error Middleware
 app.use(errorHandler);
+app.use('/api', profileRoutes);
 
 // Start Server
 const PORT = process.env.PORT || 5000;
