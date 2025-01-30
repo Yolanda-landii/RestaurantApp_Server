@@ -32,6 +32,16 @@ exports.getUserReservations = asyncHandler(async (req, res) => {
   res.json(reservations);
 });
 
+exports.getAdminReservations = asyncHandler(async (req, res) => {
+  console.log("test",req.user);
+  const adminRestaurant = await Restaurant.find({ adminId: req.user._id })
+  console.log({adminRestaurant});
+  const reservations = await Reservation.find({ restaurant: adminRestaurant[0]._id })
+    .populate('restaurant', 'name location cuisine')
+    .sort({ date: 1 });
+  console.log({reservations});
+  res.json(reservations);
+});
 // Admin: View all reservations for a specific restaurant
 exports.getRestaurantReservations = asyncHandler(async (req, res) => {
   const reservations = await Reservation.find({ restaurant: req.params.restaurantId })
