@@ -68,3 +68,48 @@ exports.loginUser = async (req, res) => {
     res.status(500).json({ message: 'Server error during login' });
   }
 };
+// Controller for getting user profile
+exports.getUserProfile = async (req, res) => {
+  try {
+    const user = req.user; // This comes from the `protect` middleware
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.status(200).json({
+      username: user.username,
+      email: user.email,
+      role: user.role,
+    });
+  } catch (err) {
+    console.error('Error fetching user profile:', err);
+    res.status(500).json({ message: 'Failed to retrieve user profile', error: err.message });
+  }
+};
+
+// Controller for updating user profile
+exports.updateUserProfile = async (req, res) => {
+  const { username, email, password } = req.body;
+
+  try {
+    const user = req.user; // From `protect` middleware
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    if (username) user.username = username;
+    if (email) user.email = email;
+    if (password) {
+      // Hash new password if provided
+      user.password = await bcrypt.hash(password, 10);
+    }
+
+    await user.save();
+
+    res.status(200).json({ message: 'Profile updated successfully', user });
+  } catch (err) {
+    console.error('Error updating user profile:', err);
+    res.status(500).json({ message: 'Failed to update user profile', error: err.message });
+  }
+};
