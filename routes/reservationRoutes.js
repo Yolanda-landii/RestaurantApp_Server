@@ -14,6 +14,6 @@ router.route('/admin')
 router.route('/:id')
   .delete(protect, cancelReservation)     
   .put(protect, approveReservation)       
-  .put(protect, confirmReservation);      
+  // .put(protect, confirmReservation);      
 
 module.exports = router;
