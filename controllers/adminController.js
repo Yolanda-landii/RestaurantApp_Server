@@ -67,3 +67,36 @@ exports.loginAdmin = async (req, res) => {
     res.status(500).json({ message: 'Server error during login' });
   }
 };
+// Get Admin Profile
+exports.getAdminProfile = async (req, res) => {
+  try {
+    const admin = await Admin.findById(req.user._id).select('-password');
+    if (!admin) {
+      return res.status(404).json({ message: 'Admin not found' });
+    }
+    res.status(200).json(admin);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching admin profile' });
+  }
+};
+
+// Update Admin Profile
+exports.updateAdminProfile = async (req, res) => {
+  try {
+    const { name, email } = req.body;
+    const admin = await Admin.findById(req.user._id);
+
+    if (!admin) {
+      return res.status(404).json({ message: 'Admin not found' });
+    }
+
+    admin.name = name || admin.name;
+    admin.email = email || admin.email;
+
+    await admin.save();
+    res.status(200).json(admin);
+  } catch (error) {
+    res.status(500).json({ message: 'Error updating admin profile' });
+  }
+};
+
